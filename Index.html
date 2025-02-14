@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Navbar */
+        nav {
+            background: ; 
+            padding: 15px 20px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            font-size: 18px;
+            margin: 0 10px;
+        }
+
+        nav a:hover {
+            background: white;
+            color: #007bff;
+            border-radius: 5px;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(to right, #007bff, #00c6ff);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            font-size: 20px;
+        }
+
+        /* Sections */
+        section {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .projects img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .contact a {
+            display: inline-block;
+            margin: 10px;
+            text-decoration: none;
+            color: white;
+            background: #007bff;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .contact a:hover {
+            background: #0056b3;
+        }
+
+        /* Footer */
+        footer {
+            background: #007bff;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <h1>Hi, I'm Shubham senn</h1>
+        <p>Web Developer | Designer | Freelancer</p>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Me</h2>
+        <p>Hello! I am a passionate web developer with experience in HTML, CSS, and JavaScript. I love building modern and responsive websites.</p>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <h2>  Projects </h2>
+        <img src="" alt=" Case Study: Enhancing Dealership User Experience at TVS Motor with an Interactive  ">
+        <img src="https://via.placeholder.com/400" alt="Project 2">
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2>Contact Me</h2>
+        <a href="shubhamsen9115@gmail.com">Email Me</a>
+        <a href="https://linkedin.com/in/yourprofile" target="_blank">LinkedIn</a>
+        <a href="https://github.com/yourgithub" target="_blank">GitHub</a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Your Name. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling effect
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+
+
+        const express = require("express");
+        const nodemailer = require("nodemailer");
+        const cors = require("cors");
+        const bodyParser = require("body-parser");
+        require("dotenv").config();
+        
+        const app = express();
+        const PORT = process.env.PORT || 5000;
+        
+        // Middleware
+        app.use(cors());
+        app.use(bodyParser.json());
+        app.use(express.static("public")); // Serve static files (HTML, CSS, JS)
+        
+        // Serve Portfolio Page
+        app.get("/", (req, res) => {
+            res.sendFile(__dirname + "/index.html");
+        });
+        
+        // Contact Form Handling
+        app.post("/contact", async (req, res) => {
+            const { name, email, message } = req.body;
+        
+            if (!name || !email || !message) {
+                return res.status(400).json({ error: "All fields are required" });
+            }
+        
+            // Configure Email Transporter
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL_USER,
+                    pass: process.env.EMAIL_PASS,
+                },
+            });
+        
+            let mailOptions = {
+                from: email,
+                to: process.env.EMAIL_USER,
+                subject: `New Message from ${name}`,
+                text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+            };
+        
+            try {
+                await transporter.sendMail(mailOptions);
+                res.json({ success: "Message sent successfully!" });
+            } catch (error) {
+                res.status(500).json({ error: "Failed to send message" });
+            }
+        });
+        
+        
+
+    </script>
+
+</body>
+</html>
